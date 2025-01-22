@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j //para poner logs
-@CrossOrigin //para que se pueda llamar desde cualquier sitio
+@CrossOrigin("*") //para que se pueda llamar desde cualquier sitio
 @RestController //para hacer llamadas a la api y hacer una respuesta por el body
 @RequiredArgsConstructor //para que se inyecten los beans
 @RequestMapping("/apiWeb") //mapeo de la url que aparece al hacer la llamada
@@ -63,6 +63,7 @@ public class WebController {
      */
     @PostMapping("/addComment") 
     public ResponseEntity<String> addComment(@RequestBody CommentCallDto commentCallDto) {
+        log.info(commentCallDto.toString());
         return webService.addComment(commentCallDto);
     }
 
