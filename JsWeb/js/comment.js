@@ -8,19 +8,28 @@ button[0].addEventListener("click", (event) => {
 
 function addComment(event){
     event.preventDefault();// prevenimos el efecto de recargar del boton
+    let empty = false // parametro que busca si ha vacios 
 
     const request = new Map(); //generamos un map para despues hacerlo JSON para la llamada
     request.set("idUser",sessionStorage.getItem("iduser")); // Añadimos el id del usuario que guardamos anteriormente en la session
 
     let message = document.getElementById("message").value; // cogemos el valor del mensaje
+
+    if(message =="") empty= true // si esta vacio lo pone a true
     request.set("comment",message); // añadimos el valor del mensaje 
 
     let inputs = document.getElementsByTagName("input");//cogemos todos los inputs de la pagina 
     for(let i=0;i<inputs.length;i++){// recoremos los inputs ya que hay mas de un input
+        if(inputs[i] =="") empty= true // si esta vacio lo pone a true
         request.set(inputs[i].id,inputs[i].value);// por cada input añadimos el valor en el map
     }
     
-    callApi(request);
+    if(!empty){ // si no hay ninguno vacio es decir hay datos se envia a la llamada
+         callApi(request);
+    }else{ //en caso de que haya alguno vacio se envia un mensaje de error
+        callerror("All fields are required");
+    }
+   
 
 }
 
@@ -41,7 +50,7 @@ async function callApi(request){
     if(response.ok){// comprobamos que la llamada ha salido bien
         callsuccess();
     }else{
-        callFail("Internal Error");
+        callerror("Internal Error");
     }
 }
 
