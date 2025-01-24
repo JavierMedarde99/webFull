@@ -63,7 +63,6 @@ public class WebController {
      */
     @PostMapping("/addComment") 
     public ResponseEntity<String> addComment(@RequestBody CommentCallDto commentCallDto) {
-        log.info(commentCallDto.toString());
         return webService.addComment(commentCallDto);
     }
 
